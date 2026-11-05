@@ -1,6 +1,6 @@
 #include "channel.h"
 
-Channel::Channel() : readIndex(0), writeIndex(1), bufferSize(20)
+Channel::Channel() : readIndex(0), writeIndex(1), bufferSize(5)
 {
     buffer = new int[bufferSize];
 }

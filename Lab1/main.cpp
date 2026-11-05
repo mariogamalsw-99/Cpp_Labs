@@ -1,19 +1,61 @@
 #include <iostream>
 #include "channel.h"
-
+#include "server.h"
+#include "client.h"
 
 int main()
 {
-    Channel mychannel{10};
-    int x=10;
-    mychannel.writeChannel(x);
-    x=77;
-    mychannel.writeChannel(x);
-    mychannel.readChannel(x);
-    std::cout<<"first written data: "<<x<<std::endl;
-    mychannel.readChannel(x);
-    std::cout<<"second written data: "<<x<<std::endl;
-    mychannel.readChannel(x);
-    std::cout<<"third written data: "<<x<<std::endl;
+    Server myServer{};
+    bool isOk = true;
+    int data=-5;
+    //write in channels
+    for (int i = 0; i < 5; i++)
+    {
+        data=i+1;
+        isOk = myServer.writeChannel(SPEED, data);
+        if (isOk)
+        {
+            std::cout <<i<< ". WRITE " << data << " TO Speed Channel."<<std::endl;
+        }
+        else
+        {
+            std::cout <<i<< ". COULDN'T WRITE " << data << " TO Speed Channel."<<std::endl;
+        }
+        data=i+20;
+        isOk = myServer.writeChannel(RPM, data);
+        if (isOk)
+        {
+            std::cout<<i << ". WRITE " << data << " TO RPM Channel."<<std::endl;
+        }
+        else
+        {
+            std::cout<<i << ". COULDN'T WRITE " << i << " TO RPM Channel."<<std::endl;
+        }
+        data=30+i;
+        isOk = myServer.writeChannel(TEMP, data);
+        if (isOk)
+        {
+            std::cout<<i << ". WRITE " << data << " TO TEMP Channel."<<std::endl;
+        }
+        else
+        {
+            std::cout <<i << ". COULDN'T WRITE " << data << " TO TEMP Channel."<<std::endl;
+        }
+    }
+    Client speedClient(myServer,SPEED);
+    Client rpmClient(myServer,RPM);
+    Client tempClient(myServer,TEMP);
+    for(int i=0;i<8;i++)
+    {
+        isOk=speedClient.clientRead(data);
+        if(isOk)
+        {
+            std::cout<<i<<".SpeedClient read "<<data<<std::endl;
+        }
+        else
+        {
+            std::cout<<i<<".SpeedClient couldn't read "<<std::endl;
+        }
+    }
     return 0;
 }

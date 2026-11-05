@@ -1,17 +1,18 @@
 #ifndef  CLIENT_H
 #define CLIENT_H
+#include "channel.h"
 #include "server.h"
 
 class Client
 {
     private:
-    Channel myChanneld[NUM_OF_CHANNELS];
+    Channel* channelPtr;
     public:
-    Client();
+    Client(Server&,Channel_id_t );
     ~Client();
     //User Interface
-    bool writeChannel(Channel_id_t,int& );
-    Channel* bindChannel(Channel_id_t);
+    bool clientRead(int& );
+
 };
 
 #endif
