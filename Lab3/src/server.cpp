@@ -28,7 +28,7 @@ Server::~Server()
         delete myChanneld[i];
 }
 // User Interface
-bool Server::writeChannel(Channel_id_t id, data_t &data)
+bool Server::writeChannel(Channel_id_t id, std::variant<int,float,double> &data)
 {
     bool res = false;
     if (id >= NUM_OF_CHANNELS)

@@ -6,7 +6,7 @@ SpeedChannel::SpeedChannel() : Channel()
 SpeedChannel::SpeedChannel(unsigned int s) : Channel(s)
 {
 }
-bool SpeedChannel::readChannel(data_t &data)
+bool SpeedChannel::readChannel(std::variant<int,float,double> &data)
 {
     bool res = false;
     if (((readIndex + 1) % bufferSize) == writeIndex)
@@ -19,13 +19,13 @@ bool SpeedChannel::readChannel(data_t &data)
         readIndex++;
         readIndex %= bufferSize;
         // update data with read data from buffer
-        data.floatData = buffer[readIndex].floatData;
+        data = std::get<float>(buffer[readIndex]);
         res = true;
-        std::cout << "Speed Read: " << data.floatData << std::endl;
+        std::cout << "Speed Read: " << std::get<float>(data) << std::endl;
     }
     return res;
 }
-bool SpeedChannel::writeChannel(data_t &data)
+bool SpeedChannel::writeChannel(std::variant<int,float,double> &data)
 {
     bool res = false;
     if (readIndex == ((writeIndex + 1) % bufferSize))
@@ -35,12 +35,12 @@ bool SpeedChannel::writeChannel(data_t &data)
     else
     {
         // update buffer with write data
-        buffer[writeIndex].floatData = data.floatData;
+        buffer[writeIndex] = std::get<float>(data);
         // Shift write index
         writeIndex++;
         writeIndex %= bufferSize;
         res = true;
-        std::cout << "Speed Write : " << data.floatData << std::endl;
+        std::cout << "Speed Write : " << std::get<float>(data) << std::endl;
     }
     return res;
 }

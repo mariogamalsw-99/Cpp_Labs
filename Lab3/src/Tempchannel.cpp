@@ -6,7 +6,7 @@ TempChannel::TempChannel() : Channel()
 TempChannel::TempChannel(unsigned int s) : Channel(s)
 {
 }
-bool TempChannel::readChannel(data_t &data)
+bool TempChannel::readChannel(std::variant<int,float,double> &data)
 {
     bool res = false;
     if (((readIndex + 1) % bufferSize) == writeIndex)
@@ -19,13 +19,13 @@ bool TempChannel::readChannel(data_t &data)
         readIndex++;
         readIndex %= bufferSize;
         // update data with read data from buffer
-        data.doubleData = buffer[readIndex].doubleData;
+        data = std::get<double>(buffer[readIndex]);
         res = true;
-        std::cout << "Temp Read: " << data.doubleData << std::endl;
+        std::cout << "Temp Read: " << std::get<double>(data) << std::endl;
     }
     return res;
 }
-bool TempChannel::writeChannel(data_t &data)
+bool TempChannel::writeChannel(std::variant<int,float,double> &data)
 {
     bool res = false;
     if (readIndex == ((writeIndex + 1) % bufferSize))
@@ -35,12 +35,12 @@ bool TempChannel::writeChannel(data_t &data)
     else
     {
         // update buffer with write data
-        buffer[writeIndex].doubleData = data.doubleData;
+        buffer[writeIndex] = std::get<double>(data);
         // Shift write index
         writeIndex++;
         writeIndex %= bufferSize;
         res = true;
-        std::cout << "Temp Write : " << data.doubleData << std::endl;
+        std::cout << "Temp Write : " << std::get<double>(data) << std::endl;
     }
     return res;
 }

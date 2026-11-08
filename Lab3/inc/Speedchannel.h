@@ -11,8 +11,8 @@ public:
     SpeedChannel(unsigned int s);
     virtual ~SpeedChannel()=default;
     // User Interface
-    virtual bool readChannel(data_t& data) override ;
-    virtual bool writeChannel(data_t& data) override;
+    virtual bool readChannel(std::variant<int,float,double>& data) override ;
+    virtual bool writeChannel(std::variant<int,float,double>& data) override;
 };
 
 #endif

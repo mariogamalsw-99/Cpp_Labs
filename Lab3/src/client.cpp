@@ -7,7 +7,7 @@ Client::~Client(){
     
 }
 // User Interface
-bool Client::clientRead(data_t& data)
+bool Client::clientRead(std::variant<int,float,double>& data)
 {
     return channelPtr->readChannel(data);
 }

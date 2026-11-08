@@ -17,7 +17,7 @@ class Server
     Server();
     ~Server();
     //User Interface
-    bool writeChannel(Channel_id_t,data_t   & );
+    bool writeChannel(Channel_id_t,std::variant<int,float,double>   & );
     Channel* bindChannel(Channel_id_t);
 };
 

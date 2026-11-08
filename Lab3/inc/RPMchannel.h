@@ -11,8 +11,8 @@ public:
     RPMChannel(unsigned int s);
     virtual ~RPMChannel()=default;
     // User Interface
-    virtual bool readChannel(data_t& data) override ;
-    virtual bool writeChannel(data_t& data) override;
+    virtual bool readChannel(std::variant<int,float,double>& data) override ;
+    virtual bool writeChannel(std::variant<int,float,double>& data) override;
 };
 
 #endif

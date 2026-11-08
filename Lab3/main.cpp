@@ -7,12 +7,12 @@ int main()
 {
     Server myServer{};
     bool isOk = true;
-    data_t data ;
-    data.intData=-5;
+    std::variant<int,float,double> data ;
+    data=-5;
     //write in channels
     for (int i = 0; i < 5; i++)
     {
-        data.floatData=i+1;
+        data=float(i+10);
         isOk = myServer.writeChannel(SPEED, data);
         if (isOk)
         {
@@ -22,7 +22,7 @@ int main()
         {
             std::cout <<i<< ". COULDN'T WRITE " << " TO Speed Channel."<<std::endl;
         }
-        data.intData=i+20;
+        data=i+20;
         isOk = myServer.writeChannel(RPM, data);
         if (isOk)
         {
@@ -32,7 +32,7 @@ int main()
         {
             std::cout<<i << ". COULDN'T WRITE " << i << " TO RPM Channel."<<std::endl;
         }
-        data.doubleData=89.089+i;
+        data=89.089+i;
         isOk = myServer.writeChannel(TEMP, data);
         if (isOk)
         {

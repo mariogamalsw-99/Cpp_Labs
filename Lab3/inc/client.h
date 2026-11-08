@@ -11,7 +11,7 @@ class Client
     Client(Server&,Channel_id_t );
     ~Client();
     //User Interface
-    bool clientRead(data_t& );
+    bool clientRead(std::variant<int,float,double>& );
 
 };
 
